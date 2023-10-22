@@ -1,5 +1,6 @@
 import express from "express";
 import { envs } from "./config/envs";
+import { GithubController } from "./presentation/github/controller";
 
 (() => {
   main();
@@ -8,9 +9,9 @@ import { envs } from "./config/envs";
 function main() {
   const app = express();
 
-  app.post("/api/github/", (req, res) => {
-    res.json("GithubEndpoint");
-  });
+  const controller = new GithubController();
+
+  app.post("/api/github/", controller.webhookHandler);
 
   app.listen(envs.PORT, () => {
     console.log("App running...");
